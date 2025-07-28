@@ -36,8 +36,10 @@ def process_nifti(file_obj, modality: str, subject):
             print(f"subject {subject}, {file_obj.name}: 'read' tag added for {modality}")
         else:
             # Add 'read' tag only if none of the QC tags are present
-            if not any(tag in file_obj.tags for tag in ['read', 'QC_unclear', 'QC_failed', 'QC_passed']):
+            if not any(tag in file_obj.tags for tag in ['read', 'QC_unclear', 'QC_failed', 'QC_passed','QC-unclear', 'QC-failed', 'QC-passed']):
                 file_obj.add_tag('read')
+                parent_acquisition = file_obj.parent
+                parent_acquisition.add_tag('read')
                 print(f"subject {subject}, {file_obj.name}: 'read' tag added for {modality}")
             else:
                 print(f"subject {subject}, {file_obj.name}: QC tag already present")

@@ -1,4 +1,7 @@
 # Changelog
+28th July 2025
+"version": "0.1.1"
+Added session tagging due to flywheel issues with file versioning. This will enable filtering by acqusition when assigning QC tasks.
 
 22st March 2024
 "version": "0.0.2"
