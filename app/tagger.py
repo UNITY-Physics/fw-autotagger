@@ -30,21 +30,27 @@ def process_nifti(file_obj, modality: str, subject):
         modality: The modality being processed (e.g., T2w, T1w).
     """
     # Check if the file is a NIfTI file
-    if file_obj.type == 'nifti':
-        if not file_obj.tags:
-            file_obj.add_tag('read')
-            print(f"subject {subject}, {file_obj.name}: 'read' tag added for {modality}")
-        else:
-            # Add 'read' tag only if none of the QC tags are present
-            if not any(tag in file_obj.tags for tag in ['read', 'QC_unclear', 'QC_failed', 'QC_passed','QC-unclear', 'QC-failed', 'QC-passed']):
+    try:
+        if file_obj.type == 'nifti':
+            if not file_obj.tags:
                 file_obj.add_tag('read')
-                parent_acquisition = file_obj.parent
-                parent_acquisition.add_tag('read')
+                if subject.startswith("137"):
+                    file_obj.add_tag('phantom')
+                    
                 print(f"subject {subject}, {file_obj.name}: 'read' tag added for {modality}")
             else:
-                print(f"subject {subject}, {file_obj.name}: QC tag already present")
-    else:
-        print(file_obj.name, "is not a NIfTI file. Skipping.")
+                # Add 'read' tag only if none of the QC tags are present
+                if not any(tag in file_obj.tags for tag in ['read', 'QC_unclear', 'QC_failed', 'QC_passed','QC-unclear', 'QC-failed', 'QC-passed']):
+                    file_obj.add_tag('read')
+                    parent_acquisition = file_obj.parent
+                    parent_acquisition.add_tag('read')
+                    print(f"subject {subject}, {file_obj.name}: 'read' tag added for {modality}")
+                else:
+                    print(f"subject {subject}, {file_obj.name}: QC tag already present")
+        else:
+            print(file_obj.name, "is not a NIfTI file. Skipping.")
+    except Exception as e:
+        print("Caught Exception : ", e)
 
 
 def tagger(input, T2wQC: bool, T1wQC: bool, FLAIRQC: bool, ADCQC: bool):
