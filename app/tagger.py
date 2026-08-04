@@ -32,10 +32,12 @@ def process_nifti(file_obj, modality: str, subject):
     # Check if the file is a NIfTI file
     try:
         if file_obj.type == 'nifti':
-            if not file_obj.tags:
+            if subject.startswith("137"):
+                file_obj.add_tag('phantom')
+                
+            if not file_obj.tags and not subject.startswith("137"):
                 file_obj.add_tag('read')
-                if subject.startswith("137"):
-                    file_obj.add_tag('phantom')
+            
                     
                 print(f"subject {subject}, {file_obj.name}: 'read' tag added for {modality}")
             else:
