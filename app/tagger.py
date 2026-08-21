@@ -34,12 +34,12 @@ def process_nifti(file_obj, modality: str, subject):
         if file_obj.type == 'nifti':
             if subject.startswith("137"):
                 file_obj.add_tag('phantom')
+                print(f"subject {subject}, {file_obj.name}: 'phantom' tag added for {modality}")
                 
             if not file_obj.tags and not subject.startswith("137"):
                 file_obj.add_tag('read')
-            
-                    
                 print(f"subject {subject}, {file_obj.name}: 'read' tag added for {modality}")
+            
             else:
                 # Add 'read' tag only if none of the QC tags are present
                 if not any(tag in file_obj.tags for tag in ['read', 'QC_unclear', 'QC_failed', 'QC_passed','QC-unclear', 'QC-failed', 'QC-passed']):
