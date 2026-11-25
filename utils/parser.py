@@ -1,11 +1,11 @@
 """Parser module to parse gear config.json."""
 
-from typing import Tuple
+from typing import Optional, Tuple
 from flywheel_gear_toolkit import GearToolkitContext
 
 def parse_config(
     gear_context: GearToolkitContext,
-) -> Tuple[str, bool, bool, bool, bool]:
+) -> Tuple[Optional[str], bool, bool, bool, bool, bool]:
     """Parses the config info.
     Args:
         gear_context: Context.
@@ -20,7 +20,8 @@ def parse_config(
     T1wQC = gear_context.config.get("T1w-QC")
     FLAIRQC = gear_context.config.get("FLAIR-QC")
     ADCQC = gear_context.config.get("ADC-QC")
+    SessionQC = gear_context.config.get("Session-QC")
 
-    return input, T2wQC, T1wQC, FLAIRQC, ADCQC
+    return input, T2wQC, T1wQC, FLAIRQC, ADCQC, SessionQC
 
 

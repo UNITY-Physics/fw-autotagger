@@ -22,6 +22,11 @@
       "description": "Tag ADC acquisitions with 'read' status for visual QC tasks",
       "default": true,
       "type": "boolean"
+    },
+    "Session-QC": {
+      "description": "Tag the session for review by the session-level reader task. Also flags sessions with repeat acquisitions of the same scan type as 'repeat-acq'.",
+      "default": false,
+      "type": "boolean"
     }
   },
   "custom": {
@@ -47,7 +52,7 @@
     },
     "gear-builder": {
       "category": "utility",
-      "image": "flywheel/autotagger:0.1.4"
+      "image": "flywheel/autotagger:0.1.6"
     },
     "kcl-app-binary": "app/main.sh",
     "kcl-app-modalities": [
@@ -78,8 +83,8 @@
     },
     "input": {
       "base": "file",
-      "description": "Any nifti file for visual QC tagging (usually following dcm2niix conversion)",
-      "optional": false
+      "description": "Any nifti file for visual QC tagging (usually following dcm2niix conversion). Not required when only 'Session-QC' is enabled for a session-level run.",
+      "optional": true
     }
   },
   "label": "autotagger",
@@ -88,5 +93,5 @@
   "name": "autotagger",
   "source": "",
   "url": "https://github.com/UNITY-Physics/fw-autotagger",
-  "version": "0.1.4"
+  "version": "0.1.6"
 }
